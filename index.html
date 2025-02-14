@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sortable Table with Pagination</title>
+    
+    <link rel="stylesheet" href="/styles/stylesheet.css" />
+</head>
+<body>
+    <h1>Sortable Table with Pagination</h1>
+    
+    <div>
+      <label for="results-per-page">Results per Page:</label>
+      <select id="results-per-page">
+        <option id="input-Ten" value="10">10</option>
+        <option id="input-Twenty" value="20">20</option>
+        <option id="input-Thirty" value="30">30</option>
+        <option id="input-Forty" value="40">40</option>
+        <option id="input-Fifty" value="50">50</option>
+      </select>
+    </div>
+    
+    
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th id="id" >ID</th>
+          <th id="firstName" >First Name</th>
+          <th id="lastName" >Last Name</th>
+          <th id="height" >Height</th>
+          <th id="age" >Age</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Data will be inserted here dynamically -->
+        
+      </tbody>
+    </table>
+
+
+    <script type="module" src="./scripts/script.js"></script>
+    <script type="module" src="./scripts/getData.js"></script>
+    <script type="module" src="./scripts/displayData.js"></script>
+  </body>
+</html>
