@@ -5,54 +5,70 @@ const id = document.getElementById("id");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const age = document.getElementById("age");
-document.addEventListener("DOMContentLoaded",()=>{
-    displayElements(10)
-})
+let peopelsInfo = [];
+
+let input;
+
 document.addEventListener("DOMContentLoaded", () => {
-  
-  select.addEventListener("change", (event) => {
-    const selectedValue = parseInt(event.target.value);
-    eraseTableBodyContent();
-    displayElements(selectedValue);
-  });
-
- 
-  id.addEventListener("click", () => {
-    const selectedValue = parseInt(select.value);
-    eraseTableBodyContent();
-    loadDisplayDescending("Id", selectedValue);
-  });
-
-  firstName.addEventListener("click", () => {
-    const selectedValue = parseInt(select.value);
-    eraseTableBodyContent();
-    loadDisplayDescending("FirstName", selectedValue);
-  });
-
-  lastName.addEventListener("click", () => {
-    const selectedValue = parseInt(select.value);
-    eraseTableBodyContent();
-    loadDisplayDescending("LastName", selectedValue);
-  });
-
-  age.addEventListener("click", () => {
-    const selectedValue = parseInt(select.value);
-    eraseTableBodyContent();
-    loadDisplayDescending("Age", selectedValue);
-  });
+  displayElements(loadTableData(), 10);
 });
 
+select.addEventListener("change", (event) => {
+  const selectedValue = parseInt(event.target.value);
+  input = selectedValue;
+  peopelsInfo = [];
+  displayElements(loadTableData(), selectedValue);
+  eraseTableBodyContent();
+});
+id.addEventListener("dblclick", () => {
+  dataDescending("Id", peopelsInfo.length);
+  eraseTableBodyContent();
 
-const displayElements = async (limitNumber) => {
-  const info = await loadTableData();
-  let peopelsInfo = [];
-  
-  
+  peopelsInfo = [];
+});
+id.addEventListener("click", () => {
+  dataAscending("Id", peopelsInfo.length);
+  eraseTableBodyContent();
+  console.log(peopelsInfo);
+  peopelsInfo = [];
+});
+firstName.addEventListener("click", () => {
+  dataAscending("FirstName", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+firstName.addEventListener("dblclick", () => {
+  dataDescending("FirstName", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+lastName.addEventListener("click", () => {
+  dataAscending("LastName", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+lastName.addEventListener("dblclick", () => {
+  dataDescending("LastName", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+age.addEventListener("click", () => {
+  dataAscending("Age", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+age.addEventListener("dblclick", () => {
+  dataDescending("Age", peopelsInfo.length);
+  eraseTableBodyContent();
+  peopelsInfo = [];
+});
+
+const displayElements = async (data, limitNumber) => {
+  const info = await data;
+
   for (let i = 0; i <= `${limitNumber}` - 1; i++) {
     peopelsInfo.push(info[i]);
   }
-
-
   peopelsInfo.forEach((person) => {
     const tr = document.createElement("tr");
     for (let key in person) {
@@ -64,44 +80,40 @@ const displayElements = async (limitNumber) => {
     }
     tablebody.appendChild(tr);
   });
-  console.log(peopelsInfo);
 };
-
 
 const eraseTableBodyContent = () => {
   tablebody.innerHTML = "";
 };
 
-
-const sortDataByAscending = async (category) => {
-  const dataToSort = await loadTableData();
-  dataToSort.sort((a, b) => {
+const sortDataByAscending = (data, category) => {
+  data.sort((a, b) => {
     const A = a[category];
     const B = b[category];
     if (A < B) return -1;
     if (A > B) return 1;
     return 0;
   });
-  return dataToSort;
+  return data;
 };
 
-
-const sortDataByDescending = async (category) => {
-  const dataToSort = await loadTableData();
-  dataToSort.sort((a, b) => {
+const sortDataByDescending = (data, category) => {
+  data.sort((a, b) => {
     const A = a[category];
     const B = b[category];
-    if (A > B) return -1; 
+    if (A > B) return -1;
     if (A < B) return 1;
     return 0;
   });
-  return dataToSort;
+  return data;
 };
-
-
-const loadDisplayDescending = async (category, number) => {
-  const sortedData = await sortDataByDescending(category); 
-  displayElements(number, sortedData);  
+const dataDescending = (catergory, input) => {
+  const sortedData = sortDataByDescending(peopelsInfo, catergory);
+  displayElements(sortedData, input);
+  return sortedData;
 };
-console.log(await sortDataByDescending("FirstName"))
-
+const dataAscending = (catergory, input) => {
+  const sortedData = sortDataByAscending(peopelsInfo, catergory);
+  displayElements(sortedData, input);
+  return sortedData;
+};
